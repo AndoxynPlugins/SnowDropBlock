@@ -20,6 +20,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -55,16 +56,18 @@ public class SnowCancelDrop extends JavaPlugin implements Listener {
 			evt.setCancelled(true);
 			Location location = evt.getBlock().getLocation();
 			location.getWorld().dropItem(location, new ItemStack(Material.SNOW_BLOCK));
-			final ItemStack hand = evt.getPlayer().getItemInHand();
-			getServer().getScheduler().runTask(this, new Runnable() {
-				@Override
-				public void run() {
-					hand.setDurability((short) (hand.getDurability() + 1));
-					if (hand.getDurability() > hand.getType().getMaxDurability()) {
-						hand.setType(Material.AIR);
+			ItemStack hand = evt.getPlayer().getItemInHand();
+			if (hand.getDurability() >= hand.getType().getMaxDurability()) {
+				final Player player = evt.getPlayer();
+				getServer().getScheduler().runTask(this, new Runnable() {
+					@Override
+					public void run() {
+						player.setItemInHand(new ItemStack(Material.AIR));
 					}
-				}
-			});
+				});
+			} else {
+				hand.setDurability((short) (hand.getDurability() + 1));
+			}
 			evt.getBlock().setType(Material.AIR);
 		}
 	}
