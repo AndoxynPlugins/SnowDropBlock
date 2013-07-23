@@ -1,0 +1,5 @@
+name: SnowCancelDrop
+main: net.daboross.bukkitdev.snowcanceldrop.SnowCancelDrop
+version: 1.0
+author: Dabo Ross
+description: Cancels snow block break and drops snow block
