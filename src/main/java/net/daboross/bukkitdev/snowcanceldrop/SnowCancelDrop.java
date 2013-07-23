@@ -16,9 +16,14 @@
  */
 package net.daboross.bukkitdev.snowcanceldrop;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,22 +33,29 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class SnowCancelDrop extends JavaPlugin implements Listener {
 
-    @Override
-    public void onEnable() {
-        PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(this, this);
-    }
+	@Override
+	public void onEnable() {
+		PluginManager pm = getServer().getPluginManager();
+		pm.registerEvents(this, this);
+	}
 
-    @Override
-    public void onDisable() {
-    }
+	@Override
+	public void onDisable() {
+	}
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("")) {
-        } else {
-            sender.sendMessage("SnowCancelDrop doesn't know about the command /" + cmd);
-        }
-        return true;
-    }
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		sender.sendMessage("SnowCancelDrop doesn't know about the command /" + cmd);
+		return true;
+	}
+
+	@EventHandler
+	public void onBlockBreak(BlockBreakEvent evt) {
+		if (evt.getBlock().getType() == Material.SNOW_BLOCK) {
+			evt.setCancelled(true);
+			Location location = evt.getBlock().getLocation();
+			location.getWorld().dropItem(location, new ItemStack(Material.SNOW_BLOCK));
+			evt.getPlayer().getItemInHand().setDurability((short) (evt.getPlayer().getItemInHand().getDurability() - 1));
+		}
+	}
 }
