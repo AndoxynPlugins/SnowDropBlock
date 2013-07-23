@@ -3,7 +3,7 @@
     <groupId>net.daboross.bukkitdev.snowcanceldrop</groupId>
     <artifactId>SnowCancelDrop</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <name>SnowCancelDrop</name>
     <repositories>
         <repository>
