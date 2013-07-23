@@ -55,7 +55,11 @@ public class SnowCancelDrop extends JavaPlugin implements Listener {
 			evt.setCancelled(true);
 			Location location = evt.getBlock().getLocation();
 			location.getWorld().dropItem(location, new ItemStack(Material.SNOW_BLOCK));
-			evt.getPlayer().getItemInHand().setDurability((short) (evt.getPlayer().getItemInHand().getDurability() + 1));
+			ItemStack hand = evt.getPlayer().getItemInHand();
+			hand.setDurability((short) (hand.getDurability() + 1));
+			if (hand.getDurability() > hand.getType().getMaxDurability()) {
+				hand.setType(Material.AIR);
+			}
 			evt.getBlock().setType(Material.AIR);
 		}
 	}
