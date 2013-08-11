@@ -1,5 +1,5 @@
-name: SnowCancelDrop
+name: ${project.name}
 main: net.daboross.bukkitdev.snowcanceldrop.SnowCancelDrop
-version: 1.0.3
+version: ${project.version}
 author: Dabo Ross
 description: Cancels snow block break and drops snow block
